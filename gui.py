@@ -56,6 +56,12 @@ class Ui_VotingSheet(object):
         self.statusbar = QtWidgets.QStatusBar(parent=VotingSheet)
         self.statusbar.setObjectName("statusbar")
         VotingSheet.setStatusBar(self.statusbar)
+        self.buttonGroup = QtWidgets.QButtonGroup(VotingSheet)
+        self.buttonGroup.setObjectName("buttonGroup")
+        self.buttonGroup.addButton(self.janeRadioButton)
+        self.buttonGroup.addButton(self.johnRadioButton)
+        self.buttonGroup.addButton(self.otherRadioButton)
+
 
         self.retranslateUi(VotingSheet)
         QtCore.QMetaObject.connectSlotsByName(VotingSheet)
