@@ -7,14 +7,14 @@ class Logic(QMainWindow, Ui_VotingSheet):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.toggleOtherTextBox()
-        self.janeRadioButton.clicked.connect(self.toggleOtherTextBox)
-        self.johnRadioButton.clicked.connect(self.toggleOtherTextBox)
-        self.otherRadioButton.clicked.connect(self.toggleOtherTextBox)
+        self.toggle_other_text_box()
+        self.janeRadioButton.clicked.connect(self.toggle_other_text_box)
+        self.johnRadioButton.clicked.connect(self.toggle_other_text_box)
+        self.otherRadioButton.clicked.connect(self.toggle_other_text_box)
         self.submitButton.clicked.connect(self.submit)
 
 
-    def toggleOtherTextBox(self):
+    def toggle_other_text_box(self):
         '''
         This Function is used to toggle the text box for the other option and clears it depending on which radio button is checked
         '''
@@ -72,11 +72,11 @@ class Logic(QMainWindow, Ui_VotingSheet):
                     with open('data.csv', 'a', newline='') as csvfile:
                         writer = csv.writer(csvfile)
                         writer.writerow([vote, numberID])
-                        self.resetEntries()
+                        self.reset_entries()
                 elif not voted:
                     self.idLabel.setText('Must select a candidate')
 
-    def resetEntries(self):
+    def reset_entries(self):
         '''
         This Function is used to clear the entries entered by the user and set all text back to original.
         Will also unfocus the user if they are still on the textbox
