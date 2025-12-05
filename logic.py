@@ -87,6 +87,7 @@ class Logic(QMainWindow, Ui_VotingSheet):
             self.buttonGroup.setExclusive(False)
             self.buttonGroup.checkedButton().setChecked(False)
             self.buttonGroup.setExclusive(True)
+        # if statement right above is derived from solution to resetting the radio buttons posted in canvas classroom
         self.idLineEdit.setText('')
 
 
