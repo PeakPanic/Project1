@@ -34,6 +34,8 @@ class Logic(QMainWindow, Ui_VotingSheet):
         '''
         This Function is used to submit the candidate and id to a csv, unless the id boofs
         '''
+        foundID = False
+        voted = True
         try:
             int(self.idLineEdit.text())
         except ValueError:
@@ -42,17 +44,50 @@ class Logic(QMainWindow, Ui_VotingSheet):
             if len(self.idLineEdit.text()) != 5:
                 self.idLabel.setText('ID must be five (5) digits')
             else:
-                with open('data.csv', 'w', newline='') as csvfile:
-                    if self.idLineEdit.text() in csv.reader(csvfile):
-                        self.idLabel.setText('ID has already voted')
+                try:
+                    csvTestFile = open('data.csv', 'r')
+                    csvTestFile.close()
+                except FileNotFoundError:
+                    csvCreateFile = open('data.csv', 'w', newline='')
+                    csv.writer(csvCreateFile).writerow(['Candidate', 'ID Number'])
+                    csvCreateFile.close()
+
+                with open('data.csv', 'r', newline='') as csvfile:
+                    for row in csv.reader(csvfile):
+                        if self.idLineEdit.text() in row:
+                            self.idLabel.setText('ID has already voted')
+                            foundID = True
+                        else:
+                            numberID = self.idLineEdit.text()
+                    if self.janeRadioButton.isChecked():
+                        vote = 'Jane Doe'
+                    elif self.johnRadioButton.isChecked():
+                        vote = 'John Doe'
+                    elif self.otherRadioButton.isChecked():
+                        vote = self.otherLineEdit.text()
                     else:
-                        if self.janeRadioButton.isChecked():
-                            vote = 'Jane Doe'
-                        elif self.johnRadioButton.isChecked():
-                            vote = 'John Doe'
-                        elif self.otherRadioButton.isChecked():
-                            print('wow')
-                            # if len((self.otherLineEdit.text().strip())) != 2:
-                            #     self.idLabel.setText('Your candidate must have a first and last name')
-                            #     exit()
+                        voted = False
+
+                if not foundID and voted:
+                    with open('data.csv', 'a', newline='') as csvfile:
+                        writer = csv.writer(csvfile)
+                        writer.writerow([vote, numberID])
+                        self.resetEntries()
+                elif not voted:
+                    self.idLabel.setText('Must select a candidate')
+
+    def resetEntries(self):
+        '''
+        This Function is used to clear the entries entered by the user and set all text back to original.
+        Will also unfocus the user if they are still on the textbox
+        '''
+        self.idLabel.setText('Please enter an ID number (5 digits)')
+        self.otherLineEdit.setText('')
+        if self.buttonGroup.checkedButton() != None:
+            self.buttonGroup.setExclusive(False)
+            self.buttonGroup.checkedButton().setChecked(False)
+            self.buttonGroup.setExclusive(True)
+        self.idLineEdit.setText('')
+
+
 
