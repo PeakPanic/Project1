@@ -5,6 +5,9 @@ import csv
 
 class Logic(QMainWindow, Ui_VotingSheet):
     def __init__(self):
+        '''
+        This Function sets up the main UI and responds to button presses
+        '''
         super().__init__()
         self.setupUi(self)
         self.toggle_other_text_box()
@@ -32,7 +35,7 @@ class Logic(QMainWindow, Ui_VotingSheet):
 
     def submit(self):
         '''
-        This Function is used to submit the candidate and id to a csv, unless the id boofs
+        This Function is used to submit the candidate and id to a csv, unless the id is invalid or already used
         '''
         foundID = False
         voted = True
